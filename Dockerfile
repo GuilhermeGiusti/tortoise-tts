@@ -26,9 +26,22 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # --login option used to source bashrc (thus activating conda env) at every RUN statement
 SHELL ["/bin/bash", "--login", "-c"]
 
+RUN apt update && apt install -y build-essential g++
+
+
+# RUN conda create -n tortoise python=3.8 numba inflect -y && \
+#     source activate tortoise && \
+#     conda install --yes pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.4 -c pytorch -c nvidia && \
+#     conda install --yes transformers=4.31.0 && \
+#     cd /app && \
+#     pip install -r requirements.txt && \
+#     python --version
+
+
 RUN conda create --name tortoise python=3.9 numba inflect -y \
     && conda activate tortoise \
     && conda install --yes pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia \
     && conda install --yes transformers=4.31.0 \
     && cd /app \
+    && pip install -r requirements.txt \
     && python setup.py install
